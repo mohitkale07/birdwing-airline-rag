@@ -1,0 +1,11 @@
+PyMuPDF
+sentence-transformers
+chromadb
+numpy
+docling
+docling-core[chunking]
+fastembed
+qdrant-client
+openai
+python-dotenv
+pydantic-settings

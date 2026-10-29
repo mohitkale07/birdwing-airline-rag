@@ -1,0 +1,537 @@
+{
+  "case_count": 3,
+  "review_scale": "Score applicable numeric fields from 0 (failed) to 2 (good).",
+  "review_criteria": {
+    "correctness": "Facts are accurate and supported by the cited source.",
+    "completeness": "The answer covers all required_facts without omitting key conditions.",
+    "citation_accuracy": "Citations identify the expected document and supporting pages.",
+    "abstention_correct": "The answer abstains exactly when should_abstain is true.",
+    "access_control_pass": "No restricted document content is retrieved or cited."
+  },
+  "cases": [
+    {
+      "id": "PUB-01",
+      "test_type": "answerable",
+      "question": "When can I use the free look-in option to change or cancel a booking?",
+      "role": "public",
+      "expected_sources": [
+        {
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "pages": [
+            5
+          ]
+        }
+      ],
+      "required_facts": [
+        "The booking must be made directly with Flykite at least 7 days before departure",
+        "The change or cancellation must be made within 48 hours of booking",
+        "Changes may still require paying the fare difference"
+      ],
+      "should_abstain": false,
+      "status": "completed",
+      "answer": "You may use the free look‑in option to change or cancel a booking if you booked directly with Flykite at least 7 days before the scheduled departure and you do so within 48 hours of the booking. [Source: flykite_public_conditions_of_carriage.pdf, Pages: 5]",
+      "error": null,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "ab73f4cdd71543f5e3641305fedb640c2ecd331a363bb327fa1000ebc037db37",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 5,
+          "end_page": 5
+        },
+        {
+          "chunk_id": "30491bc1f20f2530bd026f0cb1a5ecb7d202493d682af6356950c92175453d64",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 3,
+          "end_page": 3
+        },
+        {
+          "chunk_id": "d3c628b02e2d879e5d69765aff3b7185901dab568f7ffe06a3b2d74e48ba172b",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 10,
+          "end_page": 10
+        },
+        {
+          "chunk_id": "24eca95967aab91440097361b40b0eac920c03459d9ecc2419ebeeb9111f3dd7",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 5,
+          "end_page": 5
+        },
+        {
+          "chunk_id": "15b51543b61c752c9a3e3546fe87b3d0eabce1cbc630c53ca89830d9f77081ab",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 13,
+          "end_page": 13
+        },
+        {
+          "chunk_id": "0d85806b7626eb3420320acbde082ff222a57f7c1e52e5a6fdf71e12704b9880",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 6,
+          "end_page": 6
+        },
+        {
+          "chunk_id": "645238e3d84d308de4fc5109c44ca34bc53832d5463e41b75fd9a86b2ef91135",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 4,
+          "end_page": 4
+        },
+        {
+          "chunk_id": "19ff7ffc5f076ba65da213599640cb700a37dc9cb2bd8d2b596f4557750ee982",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 9,
+          "end_page": 9
+        },
+        {
+          "chunk_id": "57b4ab6ade706ad52ecd9203c78c35ee7c0c0ad95576396cd2aa9bd6818e421f",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 2,
+          "end_page": 2
+        },
+        {
+          "chunk_id": "bffad4bcfaa534654d0a7206a3637b9602a8e8dbee8b46872123b6728217deb6",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 10,
+          "end_page": 10
+        },
+        {
+          "chunk_id": "6ad5b770dac2b14d3d3ffc19a1b182fbd382ae48a25945e19149bdf0c1efc5e3",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 3,
+          "end_page": 3
+        },
+        {
+          "chunk_id": "377fb8c342fc87077a444987081cc15d7021338515bb1789bde99b8a8510c021",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 11,
+          "end_page": 11
+        },
+        {
+          "chunk_id": "e5e9717f868ba0fed93d64eac276391ae4366439029e3b5748c9c2021d4ef5b2",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 5,
+          "end_page": 5
+        },
+        {
+          "chunk_id": "b5590c9e4f8d908b02ffd8063b970e20d5f669b0011dbf8a5c7b1ff688654762",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 4,
+          "end_page": 5
+        },
+        {
+          "chunk_id": "9b5428511ff747a3c3632ac41666df93fdfca63883c50ca529669630818447ed",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 4,
+          "end_page": 4
+        },
+        {
+          "chunk_id": "81e85a57ece7df0b3aa22494d857aa17f7bf2b9e54375967f2e099220da54339",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 5,
+          "end_page": 5
+        },
+        {
+          "chunk_id": "08a913dd62e9e4d02806bb6d12fee72fa6992ecb506f6d1ab0c3bc39aea78224",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 4,
+          "end_page": 4
+        },
+        {
+          "chunk_id": "493a5a77eaef3f315e149bb7a996626bc60534a9f248e3189434d605d945496e",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 10,
+          "end_page": 10
+        },
+        {
+          "chunk_id": "93f9c12d41fb58854502978c3bec831fcd566d08e1abb2f014e73ca0cfa9577c",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 4,
+          "end_page": 4
+        },
+        {
+          "chunk_id": "9f6c05a77801a8b78cf54744b1adb7969cbf2562672327fed65a36e3dc553cd1",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 1,
+          "end_page": 1
+        }
+      ],
+      "retrieval_validation": {
+        "expected_documents_found": [
+          "flykite_public_conditions_of_carriage.pdf"
+        ],
+        "restricted_documents_found": []
+      },
+      "review": {
+        "correctness": 2,
+        "completeness": 1,
+        "citation_accuracy": 2,
+        "abstention_correct": 2,
+        "access_control_pass": null,
+        "notes": "Correctly states the direct-booking, 7-day, and 48-hour conditions and cites page 5. It omits that a fare difference may still be due on a change."
+      }
+    },
+    {
+      "id": "PUB-02",
+      "test_type": "answerable",
+      "question": "What happens if I miss my flight and have a Lite, Classic, Flex, or Business fare?",
+      "role": "public",
+      "expected_sources": [
+        {
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "pages": [
+            5
+          ]
+        }
+      ],
+      "required_facts": [
+        "A passenger who misses check-in cut-off or does not board is a no-show",
+        "Lite and Classic fares refund only taxes and airport charges",
+        "Flex and Business fares may be refunded after the cancellation fee if requested within 24 hours after departure"
+      ],
+      "should_abstain": false,
+      "status": "completed",
+      "answer": "- Lite fare: you are treated as a no‑show and only the taxes and airport charges are refunded. [Source: flykite_public_conditions_of_carriage.pdf, Pages: 13]  \n- Classic fare: you are treated as a no‑show and only the taxes and airport charges are refunded. [Source: flykite_public_conditions_of_carriage.pdf, Pages: 5]  \n- Flex fare: you may request a refund after the cancellation fee is deducted, provided the request is made within 24 hours after departure. [Source: flykite_public_conditions_of_carriage.pdf, Pages: 5]  \n- Business fare: you may request a refund after the cancellation fee is deducted, provided the request is made within 24 hours after departure. [Source: flykite_public_conditions_of_carriage.pdf, Pages: 5]",
+      "error": null,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "f7329df1f9e7ec4c138ceff08270dec27b5a0a50897478023ebcb3c89f283ab9",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 13,
+          "end_page": 13
+        },
+        {
+          "chunk_id": "e5e9717f868ba0fed93d64eac276391ae4366439029e3b5748c9c2021d4ef5b2",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 5,
+          "end_page": 5
+        },
+        {
+          "chunk_id": "9b5428511ff747a3c3632ac41666df93fdfca63883c50ca529669630818447ed",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 4,
+          "end_page": 4
+        },
+        {
+          "chunk_id": "08a913dd62e9e4d02806bb6d12fee72fa6992ecb506f6d1ab0c3bc39aea78224",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 4,
+          "end_page": 4
+        },
+        {
+          "chunk_id": "b5590c9e4f8d908b02ffd8063b970e20d5f669b0011dbf8a5c7b1ff688654762",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 4,
+          "end_page": 5
+        },
+        {
+          "chunk_id": "4c151405934053ca58fb02b19931813a2b774a822e39dc7c37ec5d5279188e25",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 10,
+          "end_page": 11
+        },
+        {
+          "chunk_id": "9386234a039f706f30f11e639ed3949f59cb3eb5d797ef685aaccf5b8df95b51",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 11,
+          "end_page": 11
+        },
+        {
+          "chunk_id": "bffad4bcfaa534654d0a7206a3637b9602a8e8dbee8b46872123b6728217deb6",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 10,
+          "end_page": 10
+        },
+        {
+          "chunk_id": "0d85806b7626eb3420320acbde082ff222a57f7c1e52e5a6fdf71e12704b9880",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 6,
+          "end_page": 6
+        },
+        {
+          "chunk_id": "f79bdb570603a50f7a758358f985492b9a20f513c1834f573d14601e6e18a92e",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 4,
+          "end_page": 4
+        },
+        {
+          "chunk_id": "645238e3d84d308de4fc5109c44ca34bc53832d5463e41b75fd9a86b2ef91135",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 4,
+          "end_page": 4
+        },
+        {
+          "chunk_id": "ab73f4cdd71543f5e3641305fedb640c2ecd331a363bb327fa1000ebc037db37",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 5,
+          "end_page": 5
+        },
+        {
+          "chunk_id": "493a5a77eaef3f315e149bb7a996626bc60534a9f248e3189434d605d945496e",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 10,
+          "end_page": 10
+        },
+        {
+          "chunk_id": "19ff7ffc5f076ba65da213599640cb700a37dc9cb2bd8d2b596f4557750ee982",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 9,
+          "end_page": 9
+        },
+        {
+          "chunk_id": "bd703d92c42d7b5b50a127748e3c6326dd15e75b5c899977b85dfef9475d74c6",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 11,
+          "end_page": 11
+        },
+        {
+          "chunk_id": "d3c628b02e2d879e5d69765aff3b7185901dab568f7ffe06a3b2d74e48ba172b",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 10,
+          "end_page": 10
+        },
+        {
+          "chunk_id": "cb22a6f38c9b4b4b3635eed7c5d816768e6d19ab5f4e2564cbc1c48a9a2b3999",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 9,
+          "end_page": 9
+        },
+        {
+          "chunk_id": "4db22a221b673d497323580c32a612e5e3389f505ca04314a976f833fb4c7d3d",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 3,
+          "end_page": 3
+        },
+        {
+          "chunk_id": "3efd88f970d5998df4791301fb73b361feed9934c6c5a2a5cd7a95c34a24e127",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 2,
+          "end_page": 2
+        },
+        {
+          "chunk_id": "b8d51bb6901d6b1eb1686d69a0f1c9b6a61a3ec4249255979616efe69f39186b",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 7,
+          "end_page": 7
+        }
+      ],
+      "retrieval_validation": {
+        "expected_documents_found": [
+          "flykite_public_conditions_of_carriage.pdf"
+        ],
+        "restricted_documents_found": []
+      },
+      "review": {
+        "correctness": 2,
+        "completeness": 1,
+        "citation_accuracy": 1,
+        "abstention_correct": 2,
+        "access_control_pass": null,
+        "notes": "Fare outcomes are accurate, but it does not define a no-show as missing check-in cut-off or not boarding. The Lite fare claim cites page 13 instead of supporting page 5."
+      }
+    },
+    {
+      "id": "PUB-05",
+      "test_type": "abstention",
+      "question": "Which aircraft seat has the most legroom on today's flight?",
+      "role": "public",
+      "expected_sources": [],
+      "required_facts": [],
+      "should_abstain": true,
+      "status": "completed",
+      "answer": "The provided documents do not specify which aircraft seat has the most legroom on today's flight. [Source: flykite_public_conditions_of_carriage.pdf, Pages: 9]",
+      "error": null,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "19ff7ffc5f076ba65da213599640cb700a37dc9cb2bd8d2b596f4557750ee982",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 9,
+          "end_page": 9
+        },
+        {
+          "chunk_id": "b5590c9e4f8d908b02ffd8063b970e20d5f669b0011dbf8a5c7b1ff688654762",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 4,
+          "end_page": 5
+        },
+        {
+          "chunk_id": "4c151405934053ca58fb02b19931813a2b774a822e39dc7c37ec5d5279188e25",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 10,
+          "end_page": 11
+        },
+        {
+          "chunk_id": "08a913dd62e9e4d02806bb6d12fee72fa6992ecb506f6d1ab0c3bc39aea78224",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 4,
+          "end_page": 4
+        },
+        {
+          "chunk_id": "3e83315afd8fd2cfe2f8af7d2742f06e53ad8bccf47395fed3ca631b0e7a8880",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 6,
+          "end_page": 6
+        },
+        {
+          "chunk_id": "645238e3d84d308de4fc5109c44ca34bc53832d5463e41b75fd9a86b2ef91135",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 4,
+          "end_page": 4
+        },
+        {
+          "chunk_id": "03a232cc7dfd487960fd726a824c9ee9d3f04f28723821bd117cece0d41e4aa7",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 9,
+          "end_page": 9
+        },
+        {
+          "chunk_id": "81157c11cf5141fac547231e946117e7bcf7d5137e7bfea082ff2f79bfbcafad",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 3,
+          "end_page": 3
+        },
+        {
+          "chunk_id": "3a5eea470795fec5a0c7ac39428d117d90dcfcd8574de3e78acbe72de7523b36",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 11,
+          "end_page": 11
+        },
+        {
+          "chunk_id": "b8d51bb6901d6b1eb1686d69a0f1c9b6a61a3ec4249255979616efe69f39186b",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 7,
+          "end_page": 7
+        },
+        {
+          "chunk_id": "bd703d92c42d7b5b50a127748e3c6326dd15e75b5c899977b85dfef9475d74c6",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 11,
+          "end_page": 11
+        },
+        {
+          "chunk_id": "9f6c05a77801a8b78cf54744b1adb7969cbf2562672327fed65a36e3dc553cd1",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 1,
+          "end_page": 1
+        },
+        {
+          "chunk_id": "6ad5b770dac2b14d3d3ffc19a1b182fbd382ae48a25945e19149bdf0c1efc5e3",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 3,
+          "end_page": 3
+        },
+        {
+          "chunk_id": "2431e303b8426dc0942b046439e804a77915e5c5fda50fff0b2f6dc1e4d8d907",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 2,
+          "end_page": 2
+        },
+        {
+          "chunk_id": "a81670ab8c2950f17a6252f1b3037c1373cfc594a2c9d0304eb825d5422466e5",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 7,
+          "end_page": 7
+        },
+        {
+          "chunk_id": "54a747a20f773d284b2cc81990d9069a33cd670fc33448f29015c3194053b496",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 7,
+          "end_page": 7
+        },
+        {
+          "chunk_id": "3efd88f970d5998df4791301fb73b361feed9934c6c5a2a5cd7a95c34a24e127",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 2,
+          "end_page": 2
+        },
+        {
+          "chunk_id": "40352b1e9e5b014b23fe004ee4515883952b1b07ae25e64a2032577285663997",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 2,
+          "end_page": 2
+        },
+        {
+          "chunk_id": "81b483d01eb480020222f570c5a630ffb036b1603479c4502ef28f6e9400ec04",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 7,
+          "end_page": 7
+        },
+        {
+          "chunk_id": "377fb8c342fc87077a444987081cc15d7021338515bb1789bde99b8a8510c021",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 11,
+          "end_page": 11
+        }
+      ],
+      "retrieval_validation": {
+        "expected_documents_found": [],
+        "restricted_documents_found": []
+      },
+      "review": {
+        "correctness": 2,
+        "completeness": 2,
+        "citation_accuracy": 1,
+        "abstention_correct": 2,
+        "access_control_pass": null,
+        "notes": "Correctly abstains because the documents contain no flight-specific seat map. Page 9 mentions extra-legroom seat categories, but cannot substantiate which seat has the most legroom on today's flight."
+      }
+    }
+  ]
+}

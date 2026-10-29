@@ -1,0 +1,261 @@
+[
+  {
+    "id": "CX-01",
+    "test_type": "answerable",
+    "question": "What must an agent verify before viewing or changing a booking?",
+    "role": "admin",
+    "expected_sources": [
+      {
+        "document_name": "flykite_cx_operations_manual.pdf",
+        "pages": [4]
+      }
+    ],
+    "required_facts": [
+      "Level 2 verification is required to view or change a booking",
+      "Verify the PNR and one of the lead passenger name, registered email, or registered mobile number"
+    ],
+    "should_abstain": false
+  },
+  {
+    "id": "CX-02",
+    "test_type": "answerable",
+    "question": "What should an agent do for a delayed bag, and what essential-item reimbursement may apply?",
+    "role": "admin",
+    "expected_sources": [
+      {
+        "document_name": "flykite_cx_operations_manual.pdf",
+        "pages": [8]
+      }
+    ],
+    "required_facts": [
+      "Create a Property Irregularity Report in WorldTracer and give the customer its reference",
+      "Arrange delivery to the customer's address at no cost",
+      "Essential items may be reimbursed up to INR 2,500 per day for at most 3 days against receipts, subject to the delay threshold"
+    ],
+    "should_abstain": false
+  },
+  {
+    "id": "CX-03",
+    "test_type": "answerable",
+    "question": "For a missed flight caused by traffic or airport delays, is a fee waiver allowed and what can be refunded?",
+    "role": "admin",
+    "expected_sources": [
+      {
+        "document_name": "flykite_cx_operations_manual.pdf",
+        "pages": [6]
+      }
+    ],
+    "required_facts": [
+      "A fee waiver is not allowed",
+      "Refund taxes and charges only, subject to the fare rule for Flex and Business"
+    ],
+    "should_abstain": false
+  },
+  {
+    "id": "CX-04",
+    "test_type": "answerable",
+    "question": "How long does a card or UPI refund take after the refund is approved?",
+    "role": "admin",
+    "expected_sources": [
+      {
+        "document_name": "flykite_cx_operations_manual.pdf",
+        "pages": [6]
+      }
+    ],
+    "required_facts": [
+      "Card and UPI refunds take 7 working days"
+    ],
+    "should_abstain": false
+  },
+  {
+    "id": "CX-05",
+    "test_type": "abstention",
+    "question": "What is the current exchange rate for converting a ticket refund to US dollars?",
+    "role": "admin",
+    "expected_sources": [],
+    "required_facts": [],
+    "should_abstain": true
+  },
+  {
+    "id": "HR-01",
+    "test_type": "answerable",
+    "question": "How can probation be extended, how much notice must the employee receive, and what improvement plan is required?",
+    "role": "employee",
+    "expected_sources": [
+      {
+        "document_name": "flykite_people_policy_handbook.pdf",
+        "pages": [5]
+      }
+    ],
+    "required_facts": [
+      "Probation may be extended once for up to 60 days, or up to 90 days for flight crew awaiting licensing",
+      "The employee must receive written notice at least 10 working days before probation ends",
+      "The improvement plan must contain at least 2 measurable goals"
+    ],
+    "should_abstain": false
+  },
+  {
+    "id": "HR-02",
+    "test_type": "answerable",
+    "question": "What must happen before an employee is confirmed, and when must HR issue the confirmation letter?",
+    "role": "employee",
+    "expected_sources": [
+      {
+        "document_name": "flykite_people_policy_handbook.pdf",
+        "pages": [5]
+      }
+    ],
+    "required_facts": [
+      "The manager submits the confirmation form with the scorecard at least 15 days before probation ends",
+      "HR issues the confirmation letter within 7 working days after receiving a complete form",
+      "Employment remains on probation until the confirmation letter is issued"
+    ],
+    "should_abstain": false
+  },
+  {
+    "id": "HR-03",
+    "test_type": "answerable",
+    "question": "How far in advance must annual leave longer than 5 days be requested, and when is manager approval expected?",
+    "role": "employee",
+    "expected_sources": [
+      {
+        "document_name": "flykite_people_policy_handbook.pdf",
+        "pages": [7]
+      }
+    ],
+    "required_facts": [
+      "Request leave at least 3 weeks in advance",
+      "Manager approval is expected within 5 working days"
+    ],
+    "should_abstain": false
+  },
+  {
+    "id": "HR-04",
+    "test_type": "answerable",
+    "question": "When does the compensation review take effect, and when are promotions effective?",
+    "role": "hr",
+    "expected_sources": [
+      {
+        "document_name": "flykite_people_policy_handbook.pdf",
+        "pages": [7]
+      }
+    ],
+    "required_facts": [
+      "The compensation review is effective on 1 August",
+      "Promotions are effective on 1 August or 1 February"
+    ],
+    "should_abstain": false
+  },
+  {
+    "id": "HR-05",
+    "test_type": "access_control",
+    "question": "How long may an employee's probation be extended?",
+    "role": "customer",
+    "expected_sources": [],
+    "required_facts": [],
+    "should_abstain": true,
+    "restricted_sources": [
+      "flykite_people_policy_handbook.pdf",
+      "flykite_cx_operations_manual.pdf"
+    ]
+  },
+  {
+    "id": "CX-06",
+    "test_type": "access_control",
+    "question": "What must an agent verify before viewing or changing a booking?",
+    "role": "support_agent",
+    "expected_sources": [
+      {
+        "document_name": "flykite_cx_operations_manual.pdf",
+        "pages": [4]
+      }
+    ],
+    "required_facts": [
+      "Level 2 verification is required to view or change a booking",
+      "Verify the PNR and one of the lead passenger name, registered email, or registered mobile number"
+    ],
+    "should_abstain": false,
+    "restricted_sources": [
+      "flykite_people_policy_handbook.pdf"
+    ]
+  },
+  {
+    "id": "PUB-01",
+    "test_type": "answerable",
+    "question": "When can I use the free look-in option to change or cancel a booking?",
+    "role": "public",
+    "expected_sources": [
+      {
+        "document_name": "flykite_public_conditions_of_carriage.pdf",
+        "pages": [5]
+      }
+    ],
+    "required_facts": [
+      "The booking must be made directly with Flykite at least 7 days before departure",
+      "The change or cancellation must be made within 48 hours of booking",
+      "Changes may still require paying the fare difference"
+    ],
+    "should_abstain": false
+  },
+  {
+    "id": "PUB-02",
+    "test_type": "answerable",
+    "question": "What happens if I miss my flight and have a Lite, Classic, Flex, or Business fare?",
+    "role": "public",
+    "expected_sources": [
+      {
+        "document_name": "flykite_public_conditions_of_carriage.pdf",
+        "pages": [5]
+      }
+    ],
+    "required_facts": [
+      "A passenger who misses check-in cut-off or does not board is a no-show",
+      "Lite and Classic fares refund only taxes and airport charges",
+      "Flex and Business fares may be refunded after the cancellation fee if requested within 24 hours after departure"
+    ],
+    "should_abstain": false
+  },
+  {
+    "id": "PUB-03",
+    "test_type": "answerable",
+    "question": "If Flykite cancels my flight or delays it by more than 6 hours and I choose not to travel, what refund do I get?",
+    "role": "public",
+    "expected_sources": [
+      {
+        "document_name": "flykite_public_conditions_of_carriage.pdf",
+        "pages": [6]
+      }
+    ],
+    "required_facts": [
+      "The passenger receives a full refund with no deduction",
+      "The refund includes the convenience fee"
+    ],
+    "should_abstain": false
+  },
+  {
+    "id": "PUB-04",
+    "test_type": "answerable",
+    "question": "How do I request wheelchair assistance, and is there a charge?",
+    "role": "public",
+    "expected_sources": [
+      {
+        "document_name": "flykite_public_conditions_of_carriage.pdf",
+        "pages": [8]
+      }
+    ],
+    "required_facts": [
+      "Wheelchair assistance at the airport and on board is free",
+      "Request it when booking or at least 48 hours before departure through Manage Booking or the Accessibility Desk"
+    ],
+    "should_abstain": false
+  },
+  {
+    "id": "PUB-05",
+    "test_type": "abstention",
+    "question": "Which aircraft seat has the most legroom on today's flight?",
+    "role": "public",
+    "expected_sources": [],
+    "required_facts": [],
+    "should_abstain": true
+  }
+]

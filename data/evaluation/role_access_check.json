@@ -1,0 +1,364 @@
+{
+  "case_count": 2,
+  "review_scale": "Score applicable numeric fields from 0 (failed) to 2 (good).",
+  "review_criteria": {
+    "correctness": "Facts are accurate and supported by the cited source.",
+    "completeness": "The answer covers all required_facts without omitting key conditions.",
+    "citation_accuracy": "Citations identify the expected document and supporting pages.",
+    "abstention_correct": "The answer abstains exactly when should_abstain is true.",
+    "access_control_pass": "No restricted document content is retrieved or cited."
+  },
+  "cases": [
+    {
+      "id": "HR-05",
+      "test_type": "access_control",
+      "question": "How long may an employee's probation be extended?",
+      "role": "customer",
+      "expected_sources": [],
+      "required_facts": [],
+      "should_abstain": true,
+      "restricted_sources": [
+        "flykite_people_policy_handbook.pdf",
+        "flykite_cx_operations_manual.pdf"
+      ],
+      "status": "retrieval_only",
+      "answer": null,
+      "error": null,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "3a5eea470795fec5a0c7ac39428d117d90dcfcd8574de3e78acbe72de7523b36",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 11,
+          "end_page": 11
+        },
+        {
+          "chunk_id": "6ad5b770dac2b14d3d3ffc19a1b182fbd382ae48a25945e19149bdf0c1efc5e3",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 3,
+          "end_page": 3
+        },
+        {
+          "chunk_id": "477ef5333abce250d6d606e56ab17401d63176e65e06104f0a4334e853407ae3",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 13,
+          "end_page": 13
+        },
+        {
+          "chunk_id": "b5665b46c079396832df08caa43c0795b31fe2c628b1e7af697bc32dcf660305",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 9,
+          "end_page": 9
+        },
+        {
+          "chunk_id": "bd703d92c42d7b5b50a127748e3c6326dd15e75b5c899977b85dfef9475d74c6",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 11,
+          "end_page": 11
+        },
+        {
+          "chunk_id": "fcaf6b73e074bcc0c0e48a76eeb1a690d3f88edb83feb2e7218356060d2807fd",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 8,
+          "end_page": 8
+        },
+        {
+          "chunk_id": "490b3513afda6c937bae65d0fbe3be87e8f4ee712ae176f7a163af33ee5ae075",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 3,
+          "end_page": 3
+        },
+        {
+          "chunk_id": "a81670ab8c2950f17a6252f1b3037c1373cfc594a2c9d0304eb825d5422466e5",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 7,
+          "end_page": 7
+        },
+        {
+          "chunk_id": "e4dd393f93323a4f78c5178d31aaa22165ec200f987c69388f2e66ab658c4478",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 12,
+          "end_page": 12
+        },
+        {
+          "chunk_id": "03a232cc7dfd487960fd726a824c9ee9d3f04f28723821bd117cece0d41e4aa7",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 9,
+          "end_page": 9
+        },
+        {
+          "chunk_id": "30491bc1f20f2530bd026f0cb1a5ecb7d202493d682af6356950c92175453d64",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 3,
+          "end_page": 3
+        },
+        {
+          "chunk_id": "493a5a77eaef3f315e149bb7a996626bc60534a9f248e3189434d605d945496e",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 10,
+          "end_page": 10
+        },
+        {
+          "chunk_id": "71e3db601fd4dabfa5cdffd72d7e759343e03662328471ad7e7c07e41bf22870",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 8,
+          "end_page": 8
+        },
+        {
+          "chunk_id": "bffad4bcfaa534654d0a7206a3637b9602a8e8dbee8b46872123b6728217deb6",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 10,
+          "end_page": 10
+        },
+        {
+          "chunk_id": "e5e9717f868ba0fed93d64eac276391ae4366439029e3b5748c9c2021d4ef5b2",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 5,
+          "end_page": 5
+        },
+        {
+          "chunk_id": "1af23183fc01a4d68ee9651158a1cab5419936da1e2690e54b501bed39dfe9ac",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 12,
+          "end_page": 12
+        },
+        {
+          "chunk_id": "3e83315afd8fd2cfe2f8af7d2742f06e53ad8bccf47395fed3ca631b0e7a8880",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 6,
+          "end_page": 6
+        },
+        {
+          "chunk_id": "d3c628b02e2d879e5d69765aff3b7185901dab568f7ffe06a3b2d74e48ba172b",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 10,
+          "end_page": 10
+        },
+        {
+          "chunk_id": "f79bdb570603a50f7a758358f985492b9a20f513c1834f573d14601e6e18a92e",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 4,
+          "end_page": 4
+        },
+        {
+          "chunk_id": "3f9e23662389244bb8c590c9b53a766ac27a48aa8c062373101f622f68a1dc4f",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 10,
+          "end_page": 10
+        }
+      ],
+      "retrieval_validation": {
+        "expected_documents_found": [],
+        "restricted_documents_found": []
+      },
+      "review": {
+        "correctness": null,
+        "completeness": null,
+        "citation_accuracy": null,
+        "abstention_correct": null,
+        "access_control_pass": 2,
+        "notes": ""
+      }
+    },
+    {
+      "id": "CX-06",
+      "test_type": "access_control",
+      "question": "What must an agent verify before viewing or changing a booking?",
+      "role": "support_agent",
+      "expected_sources": [
+        {
+          "document_name": "flykite_cx_operations_manual.pdf",
+          "pages": [
+            4
+          ]
+        }
+      ],
+      "required_facts": [
+        "Level 2 verification is required to view or change a booking",
+        "Verify the PNR and one of the lead passenger name, registered email, or registered mobile number"
+      ],
+      "should_abstain": false,
+      "restricted_sources": [
+        "flykite_people_policy_handbook.pdf"
+      ],
+      "status": "retrieval_only",
+      "answer": null,
+      "error": null,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "9999e153e5fffae26cf8a182ffe34f1565b139138c23e6ab516bc2924e77f5be",
+          "document_name": "flykite_cx_operations_manual.pdf",
+          "source": "customer_service",
+          "start_page": 4,
+          "end_page": 4
+        },
+        {
+          "chunk_id": "1d02c7965ff549cd40241c274c27b5ef97369e38ddae4f39764fc3477ee32515",
+          "document_name": "flykite_cx_operations_manual.pdf",
+          "source": "customer_service",
+          "start_page": 4,
+          "end_page": 4
+        },
+        {
+          "chunk_id": "d71f1d2ebca2d03dcea39d682ee88b12dbbf6baf88e4f62495f390a74f482618",
+          "document_name": "flykite_cx_operations_manual.pdf",
+          "source": "customer_service",
+          "start_page": 5,
+          "end_page": 5
+        },
+        {
+          "chunk_id": "57b4ab6ade706ad52ecd9203c78c35ee7c0c0ad95576396cd2aa9bd6818e421f",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 2,
+          "end_page": 2
+        },
+        {
+          "chunk_id": "37c5dbbe5b6ea3466e42df80934701e4576fa50a1513eb25c04a2afc44911cb4",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 12,
+          "end_page": 12
+        },
+        {
+          "chunk_id": "24eca95967aab91440097361b40b0eac920c03459d9ecc2419ebeeb9111f3dd7",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 5,
+          "end_page": 5
+        },
+        {
+          "chunk_id": "4e01f9f4e22d20dd1139dea532fc0ba256c0d2230ce163cc0061ea5af44fa471",
+          "document_name": "flykite_cx_operations_manual.pdf",
+          "source": "customer_service",
+          "start_page": 3,
+          "end_page": 3
+        },
+        {
+          "chunk_id": "4494549ad9773a44284f463078f6b9d82abcdcd1bd61d24866e408a37d452d67",
+          "document_name": "flykite_cx_operations_manual.pdf",
+          "source": "customer_service",
+          "start_page": 6,
+          "end_page": 6
+        },
+        {
+          "chunk_id": "4167f6877aac26a828708ce68ef8e29934afd4e567efc5bddc9e5108ad983698",
+          "document_name": "flykite_cx_operations_manual.pdf",
+          "source": "customer_service",
+          "start_page": 10,
+          "end_page": 10
+        },
+        {
+          "chunk_id": "9f6c05a77801a8b78cf54744b1adb7969cbf2562672327fed65a36e3dc553cd1",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 1,
+          "end_page": 1
+        },
+        {
+          "chunk_id": "d3c628b02e2d879e5d69765aff3b7185901dab568f7ffe06a3b2d74e48ba172b",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 10,
+          "end_page": 10
+        },
+        {
+          "chunk_id": "f90ca04bc253121c86731c2cc874703bbfeb3532bdc30efc75b21b92309b55dc",
+          "document_name": "flykite_cx_operations_manual.pdf",
+          "source": "customer_service",
+          "start_page": 6,
+          "end_page": 6
+        },
+        {
+          "chunk_id": "3123419c2ebb70a7179206c99c014b98a9b0d3a1efd169af4b88bc16924f33e6",
+          "document_name": "flykite_cx_operations_manual.pdf",
+          "source": "customer_service",
+          "start_page": 6,
+          "end_page": 6
+        },
+        {
+          "chunk_id": "7d6285ad352abd85369aeb97d94b8dd4482fb4f5c5682690dea0fb10464e6ee2",
+          "document_name": "flykite_cx_operations_manual.pdf",
+          "source": "customer_service",
+          "start_page": 12,
+          "end_page": 12
+        },
+        {
+          "chunk_id": "c09331475118ae31b8c380c9d1a458b9704efd0bd4fbfd61f5023b4eec5ec203",
+          "document_name": "flykite_cx_operations_manual.pdf",
+          "source": "customer_service",
+          "start_page": 11,
+          "end_page": 11
+        },
+        {
+          "chunk_id": "ab73f4cdd71543f5e3641305fedb640c2ecd331a363bb327fa1000ebc037db37",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 5,
+          "end_page": 5
+        },
+        {
+          "chunk_id": "7b99622b9d0a90d58be0faa34ab80ff24e184b3f1ac2d453489efa7d466eeec2",
+          "document_name": "flykite_cx_operations_manual.pdf",
+          "source": "customer_service",
+          "start_page": 9,
+          "end_page": 9
+        },
+        {
+          "chunk_id": "377fb8c342fc87077a444987081cc15d7021338515bb1789bde99b8a8510c021",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 11,
+          "end_page": 11
+        },
+        {
+          "chunk_id": "0f79308c52f3cde9f513c55d367309def60fc570bc4c17bc05a48c8dabff7168",
+          "document_name": "flykite_cx_operations_manual.pdf",
+          "source": "customer_service",
+          "start_page": 3,
+          "end_page": 3
+        },
+        {
+          "chunk_id": "81e85a57ece7df0b3aa22494d857aa17f7bf2b9e54375967f2e099220da54339",
+          "document_name": "flykite_public_conditions_of_carriage.pdf",
+          "source": "public",
+          "start_page": 5,
+          "end_page": 5
+        }
+      ],
+      "retrieval_validation": {
+        "expected_documents_found": [
+          "flykite_cx_operations_manual.pdf"
+        ],
+        "restricted_documents_found": []
+      },
+      "review": {
+        "correctness": null,
+        "completeness": null,
+        "citation_accuracy": null,
+        "abstention_correct": null,
+        "access_control_pass": 2,
+        "notes": ""
+      }
+    }
+  ]
+}

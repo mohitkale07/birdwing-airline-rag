@@ -1,0 +1,52 @@
+[
+  {
+    "id": "Q01",
+    "question": "How soon is the final salary settlement processed after clearance is completed?",
+    "expected_pages": [3, 12]
+  },
+  {
+    "id": "Q02",
+    "question": "By when must the exit interview be scheduled after the employee's last working day?",
+    "expected_pages": [3]
+  },
+  {
+    "id": "Q03",
+    "question": "By when must employees return company property?",
+    "expected_pages": [3]
+  },
+  {
+    "id": "Q04",
+    "question": "What steps are required before an employee can be confirmed after the final review?",
+    "expected_pages": [3]
+  },
+  {
+    "id": "Q05",
+    "question": "What disciplinary or corrective steps can be taken when an employee violates probation requirements?",
+    "expected_pages": [3]
+  },
+  {
+    "id": "Q06",
+    "question": "What is the maximum duration of a performance-related employment extension beyond the original probation period?",
+    "expected_pages": [12]
+  },
+  {
+    "id": "Q07",
+    "question": "How many measurable goals must a performance improvement plan include, and how often must they be reviewed?",
+    "expected_pages": [12]
+  },
+  {
+    "id": "Q08",
+    "question": "In which month does the annual salary review take place?",
+    "expected_pages": [12]
+  },
+  {
+    "id": "Q09",
+    "question": "After how many days of service do full-time employees become eligible for health insurance?",
+    "expected_pages": [12]
+  },
+  {
+    "id": "Q10",
+    "question": "Within how many days of confirmation must retirement plan enrollment be completed?",
+    "expected_pages": [12]
+  }
+]
