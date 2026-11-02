@@ -60,6 +60,27 @@ for local experimentation; it is not authentication. Do not expose this
 role-selection flow as a public API until roles are derived from a trusted,
 authenticated user identity.
 
+For each question, the NVIDIA-hosted LLM generates four alternate search
+queries. The original question and its variants are each searched in the
+role-filtered hybrid Qdrant collection. Results are deduplicated and combined
+with reciprocal rank fusion, then reranked against the original question using
+the cross-encoder.
+
+## Planned API and authentication layer
+
+The dependencies for the next development stage are listed in
+`requirements.txt`: FastAPI, SQLAlchemy, Alembic, PostgreSQL's Psycopg driver,
+Google authentication, JWT support, and server-sent events. The API,
+authentication flow, database models, and Alembic migrations are not
+implemented yet.
+
+For local development, install PostgreSQL, start its server, and create a
+database named `birdwing_rag`. Copy the example values from `.env.example` to
+`.env` and set your own PostgreSQL password, Google OAuth client ID, and long
+random JWT signing secret. Never commit `.env` or use the example secret in a
+deployed app. Once the API and initial Alembic migration are implemented, the
+database tables will be created with `alembic upgrade head`.
+
 ## Evaluation
 
 Evaluation scripts and test cases are in `src/evaluation` and

@@ -7,6 +7,7 @@ from qdrant_client import models
 from fastembed import SparseTextEmbedding
 
 from src.retrieval.reranker import HRPolicyReranker
+from src.retrieval.rank_fusion import reciprocal_rank_fusion
 from src.vector_store.qdrant_hybrid_store import QdrantHybridStore
 
 DENSE_MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
@@ -125,6 +126,52 @@ class HybridHRPolicyRetriever:
             role=role,
         )
 
+    def search_multi_query(
+        self,
+        question: str,
+        queries: list[str],
+        top_k: int = 5,
+        document_name: str | None = None,
+        source: str | None = None,
+        min_page: int | None = None,
+        max_page: int | None = None,
+        role: str = "public",
+    ) -> list[dict[str, Any]]:
+        """Search each query, fuse the rankings, and return unique chunks."""
+        question = question.strip()
+        if not question:
+            raise ValueError("Search question cannot be empty")
+
+        if top_k <= 0:
+            raise ValueError("top_k must be greater than zero")
+
+        search_queries = [question]
+        seen_queries = {question.casefold()}
+        for query in queries:
+            query = query.strip()
+            if not query:
+                raise ValueError("Search queries cannot be empty")
+
+            normalized_query = query.casefold()
+            if normalized_query not in seen_queries:
+                search_queries.append(query)
+                seen_queries.add(normalized_query)
+
+        ranked_lists = [
+            self.search(
+                query,
+                top_k=top_k,
+                document_name=document_name,
+                source=source,
+                min_page=min_page,
+                max_page=max_page,
+                role=role,
+            )
+            for query in search_queries
+        ]
+
+        return reciprocal_rank_fusion(ranked_lists, top_k=top_k)
+
     def close(self) -> None:
         self.store.close()
 
@@ -140,8 +187,12 @@ def main() -> None:
         role = input("Search as role [public]: ").strip() or "public"
         question = input("Ask an HR policy question: ").strip()
 
-        candidates = retriever.search(
+        from src.generation.llm_client import generate_search_queries
+
+        query_variants = generate_search_queries(question)
+        candidates = retriever.search_multi_query(
             question,
+            query_variants,
             top_k=SEARCH_CANDIDATE_K,
             role=role,
         )

@@ -4,7 +4,7 @@ from src.retrieval.search import USER_ROLES, HybridHRPolicyRetriever
 from src.retrieval.reranker import HRPolicyReranker
 from src.generation.context_builder import format_context
 from src.generation.prompt_builder import build_prompt
-from src.generation.llm_client import generate_answer
+from src.generation.llm_client import generate_answer, generate_search_queries
 
 # Retrieve more candidates, then rerank and select the best passages.
 CANDIDATE_K = 20
@@ -48,6 +48,8 @@ def _validate_question_and_role(question: str, role: str) -> tuple[str, str]:
 def retrieve_candidates(
     question: str,
     role: str = "public",
+    *,
+    show_query_count: bool = False,
 ) -> list[dict]:
     """Retrieve role-filtered chunks for a question."""
     question, role = _validate_question_and_role(question, role)
@@ -57,8 +59,19 @@ def retrieve_candidates(
 
     retriever = HybridHRPolicyRetriever(project_root)
     try:
-        return retriever.search(
+        query_variants = generate_search_queries(question)
+        if show_query_count:
+            print(
+                f"Generated {len(query_variants)} alternate queries; "
+                f"searching with {len(query_variants) + 1} queries total "
+                "(including your original question)."
+            )
+            for index, query in enumerate(query_variants, start=1):
+                print(f"  {index}. {query}")
+
+        return retriever.search_multi_query(
             question,
+            query_variants,
             top_k=candidate_k,
             role=role,
         )
@@ -85,9 +98,18 @@ def _answer_from_candidates(question: str, candidates: list[dict]) -> str:
     return generate_answer(prompt)
 
 
-def answer_question(question: str, role: str = "public") -> str:
+def answer_question(
+    question: str,
+    role: str = "public",
+    *,
+    show_query_count: bool = False,
+) -> str:
     question, role = _validate_question_and_role(question, role)
-    candidates = retrieve_candidates(question, role)
+    candidates = retrieve_candidates(
+        question,
+        role,
+        show_query_count=show_query_count,
+    )
     return _answer_from_candidates(question, candidates)
 
 
@@ -97,7 +119,7 @@ if __name__ == "__main__":
     question = input("Ask an HR policy question: ")
 
     try:
-        answer = answer_question(question, role=role)
+        answer = answer_question(question, role=role, show_query_count=True)
         print("\nAnswer:\n")
         print(answer)
     except Exception as exc:

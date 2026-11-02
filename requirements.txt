@@ -9,3 +9,10 @@ qdrant-client
 openai
 python-dotenv
 pydantic-settings
+fastapi[standard]
+sqlalchemy
+alembic
+psycopg[binary]
+google-auth
+PyJWT[crypto]
+sse-starlette
