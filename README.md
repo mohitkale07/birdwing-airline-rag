@@ -66,20 +66,45 @@ role-filtered hybrid Qdrant collection. Results are deduplicated and combined
 with reciprocal rank fusion, then reranked against the original question using
 the cross-encoder.
 
-## Planned API and authentication layer
+## Database and authentication layer
 
-The dependencies for the next development stage are listed in
-`requirements.txt`: FastAPI, SQLAlchemy, Alembic, PostgreSQL's Psycopg driver,
-Google authentication, JWT support, and server-sent events. The API,
-authentication flow, database models, and Alembic migrations are not
-implemented yet.
+The project has SQLAlchemy models for users, authentication accounts, and email
+verification tokens, with an initial Alembic migration. The API and complete
+authentication flows are still in progress.
 
-For local development, install PostgreSQL, start its server, and create a
-database named `birdwing_rag`. Copy the example values from `.env.example` to
-`.env` and set your own PostgreSQL password, Google OAuth client ID, and long
-random JWT signing secret. Never commit `.env` or use the example secret in a
-deployed app. Once the API and initial Alembic migration are implemented, the
-database tables will be created with `alembic upgrade head`.
+For local development, start PostgreSQL and create the database named
+`birdwing_rag`. Copy `.env.example` to `.env` and set your database URL and API
+key. Never commit `.env` or use example secrets in a deployed app. Create the
+tables and insert demo rows with:
+
+```powershell
+alembic upgrade head
+python -m src.db.seed
+```
+
+The seed command adds three demo users, a synthetic Google account for each,
+and a hashed placeholder verification token for the unverified user. It is
+safe to rerun: existing rows are left as-is, and only missing rows are added.
+These are test records, not usable Google identities or verification links;
+the seed data does not create password accounts because the project does not
+yet have a password-hashing implementation. Do not use the demo seed in a
+production database.
+
+### Adding more seed data
+
+Add your sample values to `DEMO_USERS` and update `seed_reference_data` in
+`src/db/seeders/reference_data.py`. For a new table:
+
+1. Import its SQLAlchemy model and add a seeded row after its parent row has
+   been created. This matters when the table has a foreign key.
+2. Choose a stable unique value (such as an email or token hash), query for it
+   first, and insert only when it does not exist. This makes reruns safe.
+3. Keep secrets out of seed files. Store hashes where the model expects hashes;
+   never add a real password or raw verification token.
+4. Add a counter to the returned `created` dictionary and to the completion
+   message in `src/db/seed.py`.
+5. Run `python -m src.db.seed` again and check that the second run reports zero
+   rows added.
 
 ## Evaluation
 

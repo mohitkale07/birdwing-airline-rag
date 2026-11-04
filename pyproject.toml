@@ -1,0 +1,17 @@
+[tool.taskipy.tasks]
+
+# FastAPI
+dev = "uvicorn src.main:app --reload"
+
+# Alembic Initialization
+db-init = "alembic init migrations"
+
+# Database Migrations
+db-revision = "alembic revision --autogenerate"
+db-upgrade = "alembic upgrade head"
+db-rollback = "alembic downgrade -1"
+
+# Migration Information
+db-current = "alembic current"
+db-history = "alembic history"
+db-heads = "alembic heads"

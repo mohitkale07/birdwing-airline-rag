@@ -10,9 +10,18 @@ openai
 python-dotenv
 pydantic-settings
 fastapi[standard]
+uvicorn
 sqlalchemy
 alembic
 psycopg[binary]
 google-auth
 PyJWT[crypto]
 sse-starlette
+taskipy
+
+# Authentication
+pwdlib[argon2]
+email-validator
+
+# Email templates (later)
+Jinja2
