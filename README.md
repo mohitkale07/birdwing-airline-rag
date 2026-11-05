@@ -25,7 +25,10 @@ pip install -r requirements.txt
 Copy-Item .env.example .env
 ```
 
-Add your NVIDIA API key to `.env`. Never commit `.env` or share your API key.
+Set your database, mail, Google OAuth, and NVIDIA credentials in `.env`. Add
+`http://127.0.0.1:8000/api/v1/auth/google/callback` as an authorized Google
+redirect URI. Set `AUTH_COOKIE_SECURE=false` for local HTTP development; use
+HTTPS and secure cookies when deployed. Never commit `.env` or share secrets.
 
 ## Ingest and build the local vector store
 
@@ -69,8 +72,20 @@ the cross-encoder.
 ## Database and authentication layer
 
 The project has SQLAlchemy models for users, authentication accounts, and email
-verification tokens, with an initial Alembic migration. The API and complete
-authentication flows are still in progress.
+verification tokens, with Alembic migrations. The API supports email/password
+registration and login, email verification, and Google OAuth:
+
+- `GET /api/v1/auth/google/login` starts Google sign-in.
+- `GET /api/v1/auth/google/callback` completes sign-in and sets the auth cookie.
+- `POST /api/v1/auth/google/link` starts linking Google to the authenticated
+  account.
+- `DELETE /api/v1/auth/google/unlink` removes Google when another sign-in method
+  is connected.
+
+Google accounts are linked to an existing account only when Google returns a
+verified matching email. Registering an email/password credential for an
+existing Google account requires confirming the email link before the password
+credential is added.
 
 For local development, start PostgreSQL and create the database named
 `birdwing_rag`. Copy `.env.example` to `.env` and set your database URL and API
@@ -85,10 +100,8 @@ python -m src.db.seed
 The seed command adds three demo users, a synthetic Google account for each,
 and a hashed placeholder verification token for the unverified user. It is
 safe to rerun: existing rows are left as-is, and only missing rows are added.
-These are test records, not usable Google identities or verification links;
-the seed data does not create password accounts because the project does not
-yet have a password-hashing implementation. Do not use the demo seed in a
-production database.
+These are test records, not usable Google identities or verification links.
+Do not use the demo seed in a production database.
 
 ### Adding more seed data
 
@@ -116,5 +129,5 @@ included Birdwing PDFs.
 
 ## Project limitations
 
-This is a learning/demo project, not a production service. It does not yet
-provide an API, authentication, rate limiting, or production-grade monitoring.
+This is a learning/demo project, not a production service. It does not provide
+rate limiting or production-grade monitoring.

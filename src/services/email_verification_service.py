@@ -19,6 +19,8 @@ class EmailVerificationService:
     @staticmethod
     def create_token_record(
         user_id: UUID,
+        purpose: str = PURPOSE_INITIAL_EMAIL,
+        pending_password_hash: str | None = None,
     ) -> tuple[EmailVerificationToken, str]:
 
         raw_token = generate_secure_token()
@@ -31,7 +33,8 @@ class EmailVerificationService:
         token_record = EmailVerificationToken(
             user_id=user_id,
             token_hash=token_hash,
-            purpose=EmailVerificationService.PURPOSE_INITIAL_EMAIL,
+            purpose=purpose,
+            pending_password_hash=pending_password_hash,
             expires_at=expires_at,
         )
 

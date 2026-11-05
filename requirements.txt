@@ -25,3 +25,7 @@ email-validator
 
 # Email templates (later)
 Jinja2
+
+# For google OAuth
+httpx
+google-auth[requests]

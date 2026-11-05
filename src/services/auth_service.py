@@ -38,50 +38,92 @@ class AuthService:
 
         raw_token = None
         user_id = None
+        verification_email = email
+        verification_name = payload.name
+        verification_purpose = EmailVerificationService.PURPOSE_INITIAL_EMAIL
 
         try:
             with self.db.begin():
 
                 existing_user = self.db.scalar(
-                    select(User.id).where(User.email == email)
+                    select(User).where(User.email == email).with_for_update()
                 )
 
                 if existing_user:
-                    raise HTTPException(
-                        status_code=status.HTTP_409_CONFLICT,
-                        detail="An account with this email already exists.",
+                    google_account = self.db.scalar(
+                        select(AuthAccount).where(
+                            AuthAccount.user_id == existing_user.id,
+                            AuthAccount.provider == "google",
+                        )
+                    )
+                    email_account = self.db.scalar(
+                        select(AuthAccount.id).where(
+                            AuthAccount.user_id == existing_user.id,
+                            AuthAccount.provider == "email",
+                        )
                     )
 
-                user = User(
-                    name=payload.name,
-                    email=email,
-                    is_verified=False,
-                    is_active=True,
-                    is_restricted=False,
-                )
+                    if google_account is None or email_account is not None:
+                        raise HTTPException(
+                            status_code=status.HTTP_409_CONFLICT,
+                            detail="An account with this email already exists.",
+                        )
 
-                self.db.add(user)
-                self.db.flush()
+                    self.db.execute(
+                        update(EmailVerificationToken)
+                        .where(
+                            EmailVerificationToken.user_id == existing_user.id,
+                            EmailVerificationToken.purpose == "add_email_login",
+                            EmailVerificationToken.used_at.is_(None),
+                            EmailVerificationToken.revoked_at.is_(None),
+                        )
+                        .values(revoked_at=datetime.now(timezone.utc))
+                    )
 
-                auth_account = AuthAccount(
-                    user_id=user.id,
-                    provider="email",
-                    provider_user_id=None,
-                    password_hash=password_hash,
-                )
+                    verification_purpose = "add_email_login"
+                    verification_email = existing_user.email
+                    verification_name = existing_user.name
+                    token_record, raw_token = EmailVerificationService.create_token_record(
+                        user_id=existing_user.id,
+                        purpose=verification_purpose,
+                        pending_password_hash=password_hash,
+                    )
+                    self.db.add(token_record)
+                    user_id = existing_user.id
 
-                self.db.add(auth_account)
+                else:
+                    user = User(
+                        name=payload.name,
+                        email=email,
+                        role=User.ROLE_USER,
+                        is_verified=False,
+                        is_active=True,
+                        is_restricted=False,
+                    )
 
-                token_record, raw_token = EmailVerificationService.create_token_record(
-                    user_id=user.id
-                )
+                    self.db.add(user)
+                    self.db.flush()
 
-                self.db.add(token_record)
+                    auth_account = AuthAccount(
+                        user_id=user.id,
+                        provider="email",
+                        provider_user_id=None,
+                        password_hash=password_hash,
+                    )
 
-                user_id = user.id
+                    self.db.add(auth_account)
+
+                    token_record, raw_token = EmailVerificationService.create_token_record(
+                        user_id=user.id,
+                    )
+
+                    self.db.add(token_record)
+
+                    user_id = user.id
 
         except IntegrityError:
 
+            self.db.rollback()
             existing_user = self.db.scalar(select(User.id).where(User.email == email))
 
             if existing_user:
@@ -95,8 +137,8 @@ class AuthService:
         # Send email only after the database transaction commits.
         try:
             EmailVerificationService.send_initial_verification_email(
-                email=email,
-                name=payload.name,
+                email=verification_email,
+                name=verification_name,
                 raw_token=raw_token,
             )
 
@@ -118,18 +160,22 @@ class AuthService:
         with self.db.begin():
 
             # Read the token owner first so locks are acquired in User -> Token order.
-            token_user_id = self.db.scalar(
+            token_details = self.db.execute(
                 select(EmailVerificationToken.user_id).where(
                     EmailVerificationToken.token_hash == token_hash,
-                    EmailVerificationToken.purpose == "verify_initial_email",
+                    EmailVerificationToken.purpose.in_(
+                        ("verify_initial_email", "add_email_login")
+                    ),
                 )
-            )
+            ).first()
 
-            if token_user_id is None:
+            if token_details is None:
                 raise HTTPException(
                     status_code=status.HTTP_400_BAD_REQUEST,
                     detail="Invalid or already used verification link.",
                 )
+
+            token_user_id = token_details[0]
 
             # Lock the user first.
             user = self.db.scalar(
@@ -148,7 +194,9 @@ class AuthService:
                 .where(
                     EmailVerificationToken.token_hash == token_hash,
                     EmailVerificationToken.user_id == user.id,
-                    EmailVerificationToken.purpose == "verify_initial_email",
+                    EmailVerificationToken.purpose.in_(
+                        ("verify_initial_email", "add_email_login")
+                    ),
                     EmailVerificationToken.used_at.is_(None),
                     EmailVerificationToken.revoked_at.is_(None),
                 )
@@ -167,13 +215,43 @@ class AuthService:
                     detail="Verification link has expired.",
                 )
 
-            if user.is_verified:
+            if token.purpose == "verify_initial_email" and user.is_verified:
                 raise HTTPException(
                     status_code=status.HTTP_400_BAD_REQUEST,
                     detail="Email address is already verified.",
                 )
 
-            user.is_verified = True
+            if token.purpose == "add_email_login":
+                if not token.pending_password_hash:
+                    raise HTTPException(
+                        status_code=status.HTTP_400_BAD_REQUEST,
+                        detail="Invalid email login verification link.",
+                    )
+
+                existing_email_account = self.db.scalar(
+                    select(AuthAccount.id).where(
+                        AuthAccount.user_id == user.id,
+                        AuthAccount.provider == "email",
+                    )
+                )
+                if existing_email_account is not None:
+                    raise HTTPException(
+                        status_code=status.HTTP_409_CONFLICT,
+                        detail="An email login is already connected to this account.",
+                    )
+
+                self.db.add(
+                    AuthAccount(
+                        user_id=user.id,
+                        provider="email",
+                        provider_user_id=None,
+                        password_hash=token.pending_password_hash,
+                    )
+                )
+                user.is_verified = True
+            else:
+                user.is_verified = True
+
             token.used_at = now
 
     # --------------------------------------------------
@@ -192,6 +270,8 @@ class AuthService:
         user_id = None
         user_email = None
         user_name = None
+        verification_purpose = None
+        pending_password_hash = None
 
         with self.db.begin():
 
@@ -200,20 +280,40 @@ class AuthService:
                 select(User).where(User.email == email).with_for_update()
             )
 
-            # Do not expose whether the account exists or is verified.
-            if user is None or user.is_verified:
+            if user is None:
                 return
 
             user_id = user.id
             user_email = user.email
             user_name = user.name
 
+            if user.is_verified:
+                verification_purpose = "add_email_login"
+                pending_token = self.db.scalar(
+                    select(EmailVerificationToken)
+                    .where(
+                        EmailVerificationToken.user_id == user.id,
+                        EmailVerificationToken.purpose == verification_purpose,
+                        EmailVerificationToken.used_at.is_(None),
+                        EmailVerificationToken.revoked_at.is_(None),
+                    )
+                    .order_by(EmailVerificationToken.created_at.desc())
+                    .limit(1)
+                )
+                if pending_token is None:
+                    return
+                pending_password_hash = pending_token.pending_password_hash
+                if pending_password_hash is None:
+                    return
+            else:
+                verification_purpose = "verify_initial_email"
+
             # Check when the most recent verification token was created.
             latest_token_created_at = self.db.scalar(
                 select(EmailVerificationToken.created_at)
                 .where(
                     EmailVerificationToken.user_id == user.id,
-                    EmailVerificationToken.purpose == "verify_initial_email",
+                    EmailVerificationToken.purpose == verification_purpose,
                 )
                 .order_by(EmailVerificationToken.created_at.desc())
                 .limit(1)
@@ -235,7 +335,7 @@ class AuthService:
                 update(EmailVerificationToken)
                 .where(
                     EmailVerificationToken.user_id == user.id,
-                    EmailVerificationToken.purpose == "verify_initial_email",
+                    EmailVerificationToken.purpose == verification_purpose,
                     EmailVerificationToken.used_at.is_(None),
                     EmailVerificationToken.revoked_at.is_(None),
                 )
@@ -244,7 +344,9 @@ class AuthService:
 
             # Generate a new token using existing service logic.
             token_record, raw_token = EmailVerificationService.create_token_record(
-                user_id=user.id
+                user_id=user.id,
+                purpose=verification_purpose,
+                pending_password_hash=pending_password_hash,
             )
 
             self.db.add(token_record)

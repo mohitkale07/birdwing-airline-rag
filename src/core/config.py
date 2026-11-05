@@ -45,6 +45,10 @@ class Settings(BaseSettings):
     EMAIL_VERIFICATION_URL: str
     EMAIL_VERIFICATION_EXPIRE_MINUTES: int = 30
 
+    # Google OAuth Configuration
+    GOOGLE_CLIENT_ID: str
+    GOOGLE_CLIENT_SECRET: str
+    GOOGLE_REDIRECT_URI: str
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
