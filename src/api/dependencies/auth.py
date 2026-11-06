@@ -60,6 +60,18 @@ def get_current_user(
     return auth_service.get_authenticated_user(user_id)
 
 
+def get_optional_current_user(
+    token: str | None = Security(auth_cookie),
+    db: Session = Depends(get_db),
+) -> User | None:
+    if not token:
+        return None
+
+    user_id = get_current_user_id(token)
+    auth_service = AuthService(db)
+    return auth_service.get_authenticated_user(user_id)
+
+
 def require_roles(*allowed_roles: str) -> Callable[..., User]:
 
     if not allowed_roles:

@@ -1,10 +1,15 @@
+from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
 from src.retrieval.search import USER_ROLES, HybridHRPolicyRetriever
 from src.retrieval.reranker import HRPolicyReranker
 from src.generation.context_builder import format_context
 from src.generation.prompt_builder import build_prompt
-from src.generation.llm_client import generate_answer, generate_search_queries
+from src.generation.llm_client import (
+    generate_answer,
+    generate_search_queries,
+)
 
 # Retrieve more candidates, then rerank and select the best passages.
 CANDIDATE_K = 20
@@ -79,23 +84,90 @@ def retrieve_candidates(
         retriever.close()
 
 
-def _answer_from_candidates(question: str, candidates: list[dict]) -> str:
+@dataclass(frozen=True)
+class PreparedAnswer:
+    prompt: str | None
+    sources: list[dict[str, Any]]
+
+
+def _rerank_candidates(question: str, candidates: list[dict]) -> list[dict]:
+    if not candidates:
+        return []
+
     comprehensive = _is_comprehensive_question(question)
     final_top_k = COMPREHENSIVE_TOP_K if comprehensive else FINAL_TOP_K
-
-    if not candidates:
-        return "The information is not available " "in the provided policy context."
-
     reranker = HRPolicyReranker()
-    results = reranker.rerank(
+    return reranker.rerank(
         question,
         candidates,
         top_k=final_top_k,
     )
 
+
+def _prompt_from_results(question: str, results: list[dict]) -> str:
     context = format_context(results)
-    prompt = build_prompt(question, context)
+    return build_prompt(question, context)
+
+
+def _prompt_from_candidates(question: str, candidates: list[dict]) -> str:
+    if not candidates:
+        return build_prompt(question, "")
+
+    results = _rerank_candidates(question, candidates)
+    return _prompt_from_results(question, results)
+
+
+def _question_with_history(
+    question: str,
+    history: list[tuple[str, str]],
+) -> str:
+    if not history:
+        return question
+
+    lines = ["Recent conversation:"]
+    for role, content in history:
+        speaker = "User" if role == "user" else "Assistant"
+        lines.append(f"{speaker}: {content}")
+    lines.append(f"Current question: {question}")
+    return "\n".join(lines)
+
+
+def _answer_from_candidates(question: str, candidates: list[dict]) -> str:
+    if not candidates:
+        return "The information is not available " "in the provided policy context."
+
+    prompt = _prompt_from_candidates(question, candidates)
     return generate_answer(prompt)
+
+
+def prepare_answer_prompt(
+    question: str,
+    role: str = "public",
+    history: list[tuple[str, str]] | None = None,
+) -> PreparedAnswer:
+    question, role = _validate_question_and_role(question, role)
+    contextual_question = _question_with_history(question, history or [])
+    candidates = retrieve_candidates(
+        contextual_question,
+        role,
+    )
+    if not candidates:
+        return PreparedAnswer(prompt=None, sources=[])
+
+    results = _rerank_candidates(contextual_question, candidates)
+    sources = [
+        {
+            "document_name": result["document_name"],
+            "source": result.get("source", "unknown"),
+            "start_page": result["start_page"],
+            "end_page": result["end_page"],
+        }
+        for result in results
+    ]
+    return PreparedAnswer(
+        prompt=_prompt_from_results(contextual_question, results),
+        sources=sources,
+    )
 
 
 def answer_question(

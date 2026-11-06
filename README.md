@@ -25,6 +25,19 @@ pip install -r requirements.txt
 Copy-Item .env.example .env
 ```
 
+The API allows browser requests from `http://localhost:3000` and
+`http://127.0.0.1:3000` by default, with credentials enabled for the auth
+cookie. For another frontend origin, set `CORS_ORIGINS` in `.env` to a JSON
+array of exact origins (including scheme and port), then restart the API:
+
+```dotenv
+CORS_ORIGINS=["http://localhost:3000","https://app.example.com"]
+```
+
+Frontend requests that need the auth cookie must include credentials, for
+example `fetch(url, { credentials: "include" })`. Do not use `*` as an allowed
+origin when credentials are enabled.
+
 Set your database, mail, Google OAuth, and NVIDIA credentials in `.env`. Add
 `http://127.0.0.1:8000/api/v1/auth/google/callback` as an authorized Google
 redirect URI. Set `AUTH_COOKIE_SECURE=false` for local HTTP development; use
@@ -81,6 +94,61 @@ registration and login, email verification, and Google OAuth:
   account.
 - `DELETE /api/v1/auth/google/unlink` removes Google when another sign-in method
   is connected.
+- `POST /api/v1/chat/stream` accepts a JSON `ChatRequest` and streams a policy
+  answer as server-sent events. A signed-in user can send
+  `{"conversation_id": null, "text": "..."}` to start a conversation or send
+  the returned `conversation_id` to continue it. The user and completed
+  assistant messages are saved to the database. Anonymous requests can ask
+  public-policy questions, but are not saved and cannot continue a saved
+  conversation.
+
+The chat stream begins with a `start` event containing the conversation and
+user-message IDs when saved, emits answer `token` events, and ends with a `done`
+event containing the assistant-message ID and source references. If generation
+or saving fails, it emits an `error` event. Conversation history is included
+when answering follow-up messages.
+
+Other chat endpoints, which require authentication and only return or modify
+the current user's conversations:
+
+- `GET /api/v1/chat/conversations?limit=20&offset=0` lists sidebar conversations
+  with message counts and the latest message preview. Set `include_archived=true`
+  to include archived conversations.
+- `GET /api/v1/chat/conversations/{conversation_id}?limit=50&offset=0` returns
+  a conversation and a page of its messages.
+- `PATCH /api/v1/chat/conversations/{conversation_id}` updates `title` and/or
+  `is_archived`.
+- `DELETE /api/v1/chat/conversations/{conversation_id}` deletes the conversation
+  and its messages.
+
+Admin-only endpoints:
+
+- `GET /api/v1/admin/users?limit=20&offset=0&search=...` lists users and their
+  conversation/message counts.
+- `PATCH /api/v1/admin/users/{user_id}/restriction` accepts
+  `{"is_restricted": true}` or `false`. An admin cannot restrict their own
+  account or the last active admin.
+- `GET /api/v1/admin/metrics` returns aggregate user, conversation, and message
+  counts.
+
+Example request:
+
+```json
+{
+  "conversation_id": null,
+  "text": "What is the annual leave policy?"
+}
+```
+
+The `done` event includes `conversation_id`, `user_message_id`,
+`assistant_message_id`, and `sources`; use its conversation ID on subsequent
+requests in the same chat.
+
+Apply database migrations before using saved chat history:
+
+```powershell
+alembic upgrade head
+```
 
 Google accounts are linked to an existing account only when Google returns a
 verified matching email. Registering an email/password credential for an

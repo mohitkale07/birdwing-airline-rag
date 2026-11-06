@@ -1,18 +1,30 @@
 from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from starlette.responses import JSONResponse
+from src.api.v1.admin import router as admin_router
+from src.api.v1.chat import router as chat_router
 from src.api.v1.auth import router as auth_router
 from src import models  # noqa: F401
 from src.common.responses import error_response
+from src.core.config import settings
 from src.db.database import get_db
 
 app = FastAPI(
     title="Flykite RAG API",
     version="1.0.0",
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=settings.CORS_ORIGINS,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
@@ -78,6 +90,18 @@ app.include_router(
     auth_router,
     prefix="/api/v1/auth",
     tags=["Authentication"],
+)
+
+app.include_router(
+    chat_router,
+    prefix="/api/v1/chat",
+    tags=["Chat"],
+)
+
+app.include_router(
+    admin_router,
+    prefix="/api/v1/admin",
+    tags=["Administration"],
 )
 
 

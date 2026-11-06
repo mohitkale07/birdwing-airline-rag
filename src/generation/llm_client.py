@@ -1,5 +1,6 @@
 import json
 import os
+from collections.abc import Iterator
 
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -22,6 +23,18 @@ MODEL = os.getenv(
 
 SEARCH_QUERY_COUNT = 4
 
+ANSWER_SYSTEM_PROMPT = (
+    "You answer airline information questions using only the supplied "
+    "document context. Do not invent facts or provide information about "
+    "live flights, bookings, or seat availability unless the context "
+    "contains it. Answer each part, identify missing information, and "
+    "cite only the source and page metadata shown in the context. Inspect "
+    "all supplied passages for relevant facts before saying the documents "
+    "do not specify an answer. A difference between the airline name in the "
+    "question and the airline name in a relevant source does not make that "
+    "source irrelevant; answer from the source and identify its airline name."
+)
+
 
 def generate_answer(prompt: str) -> str:
     response = client.chat.completions.create(
@@ -29,18 +42,12 @@ def generate_answer(prompt: str) -> str:
         messages=[
             {
                 "role": "system",
-                "content": (
-                    "You answer airline information questions using only the supplied "
-                    "document context. Do not invent facts or provide information about "
-                    "live flights, bookings, or seat availability unless the context "
-                    "contains it. Answer each part, identify missing information, and "
-                    "cite only the source and page metadata shown in the context."
-                ),
+                "content": ANSWER_SYSTEM_PROMPT,
             },
             {
                 "role": "user",
                 "content": prompt,
-            }
+            },
         ],
         temperature=0.2,
         max_tokens=1024,
@@ -52,6 +59,30 @@ def generate_answer(prompt: str) -> str:
         raise RuntimeError("The LLM returned an empty answer.")
 
     return answer.strip()
+
+
+def stream_answer(prompt: str) -> Iterator[str]:
+    response = client.chat.completions.create(
+        model=MODEL,
+        messages=[
+            {
+                "role": "system",
+                "content": ANSWER_SYSTEM_PROMPT,
+            },
+            {
+                "role": "user",
+                "content": prompt,
+            },
+        ],
+        temperature=0.2,
+        max_tokens=1024,
+        stream=True,
+    )
+
+    for chunk in response:
+        content = chunk.choices[0].delta.content
+        if content:
+            yield content
 
 
 def generate_search_queries(
